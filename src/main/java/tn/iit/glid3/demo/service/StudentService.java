@@ -9,8 +9,8 @@ public interface StudentService {
 
     public StudentResponse createStudent(CreateStudentRequest createStudentRequest);
     public StudentResponse updateStudent(CreateStudentRequest createStudentRequest);
-    public StudentResponse getById (long id);
+    public StudentResponse getById (Integer id);
     public List<StudentResponse> getAll ();
-    public void deleteById (long id);
+    public void deleteById (Integer id);
 
 }

@@ -10,6 +10,7 @@ import tn.iit.glid3.demo.repository.StudentRepository;
 import tn.iit.glid3.demo.response.StudentResponse;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +43,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponse getById(long id) {
+    public StudentResponse getById(Integer id) {
+        Optional<Student> studentFound = studentRepository.findById(id);
+        StudentResponse studentResponse = new StudentResponse();
+        if ( studentFound.isPresent()) {
+            studentResponse.setId(studentFound.get().getId());
+            studentResponse.setFirstName(studentFound.get().getFirstName());
+            studentResponse.setLastName(studentFound.get().getLastName());
+            studentResponse.setEmail(studentFound.get().getEmail());
+            studentResponse.setCity(studentFound.get().getAddress().getCity());
+            studentResponse.setStreet(studentFound.get().getAddress().getStreet());
+            return studentResponse;
+        }
+
         return null;
     }
 
@@ -75,7 +88,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Integer id) {
+        // Check if student exists
+        Student student = studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Student with ID " + id + " not found"));
 
+        studentRepository.delete(student);
     }
+
 }

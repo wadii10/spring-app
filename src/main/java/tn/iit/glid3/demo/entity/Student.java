@@ -26,8 +26,8 @@ public class Student implements Serializable {
 
     private String email;
 
-    @OneToOne
     @JoinColumn(name = "address_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     public Student(String firstName, String lastName, String email, Address address) {
